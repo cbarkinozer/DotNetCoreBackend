@@ -37,7 +37,10 @@ namespace DataAccess.Concrete.EntityFramework
 
         public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            using () 
+            {
+
+            }
         }
 
         public void Update(Product entity)
