@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Entities.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -6,6 +7,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Core.Entities.Utilities.Results.IDataResult;
 
 namespace Business.Concrete
 {
@@ -30,27 +32,31 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            return new IDataResult (_productDal.GetAll());
+            if (DateTime.Now.Hour==22) 
+            {
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
+            return new IDataResult (_productDal.GetAll(),true,Messages.ProductsListed);
         }
 
-        public List<Product> GetAllByCategoryId(int id)
+        public SuccessDataResult<List<Product>> GetAllByCategoryId(int id)
         {
-            return _productDal.GetAll(p=>p.CategoryId==id);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.CategoryId==id));
         }
 
-        public Product GetById(int productId)
+        public SuccessDataResult<List<Product>> GetById(int productId)
         {
-            return _productDal.Get(p=>p.ProductId == productId);
+            return new SuccessDataResult<Product>(_productDal.Get(p=>p.ProductId == productId));
         }
 
-        public List<Product> GetByUnitPrice(decimal min, decimal max)
+        public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            return _productDal.GetAll(p=>p.UnitPrice>=min&&p.UnitPrice<=max);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.UnitPrice>=min&&p.UnitPrice<=max));
         }
 
-        public List<ProductDetailDto> GetProductDetails()
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            return _productDal.GetProductDetails();
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
     }
 }
