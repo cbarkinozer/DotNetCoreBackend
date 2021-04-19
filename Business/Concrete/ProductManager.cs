@@ -28,9 +28,9 @@ namespace Business.Concrete
             return new Result(true,"product added");
         }
 
-        public List<Product> GetAll()
+        public IDataResult<List<Product>> GetAll()
         {
-            return _productDal.GetAll();
+            return new IDataResult (_productDal.GetAll());
         }
 
         public List<Product> GetAllByCategoryId(int id)
