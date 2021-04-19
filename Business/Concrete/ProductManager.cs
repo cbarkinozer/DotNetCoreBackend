@@ -20,6 +20,10 @@ namespace Business.Concrete
 
         public IResult Add(Product product)
         {
+            if (product.ProductName.Length<2) 
+            {
+                return new ErrorResult("The product name must be minimum 2 characters");
+            }
             _productDal.Add(product);
             return new Result(true,"product added");
         }
