@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,13 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         [HttpGet]
-        public string Get() 
+        public List<Product> Get() 
         {
-            return "Merhaba";
+            return new List<Product>
+            {
+                new Product{ ProductId=1,ProductName="Apple"},
+                new Product {ProductId=2,ProductName="Pear" },
+            };
         }
     }
 }
