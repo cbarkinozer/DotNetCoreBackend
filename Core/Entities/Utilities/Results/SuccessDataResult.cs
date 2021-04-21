@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Core.Utilities.Results;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using static Core.Entities.Utilities.Results.DataResult;
 
 namespace Core.Entities.Utilities.Results
 {
