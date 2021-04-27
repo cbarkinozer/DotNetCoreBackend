@@ -32,9 +32,9 @@ namespace WebAPI
             //Autofac,Ninject,Castlewindowser,StructureMap,LightInject,DryInject ->IoC Containers
             //AOP: Bussiness in bussiness.(Validaiton,cache,error et.c managements)
             services.AddControllers();
-            services.AddSingleton<IProductService,ProductManager>(); //If you see IProductService dependency, it's equivalent is ProductManager
+            //services.AddSingleton<IProductService, ProductManager>(); If you see IProductService dependency, it's equivalent is ProductManager
             //Singleton creates one ProductManager on the memory for all clients(we must hold no data in it)
-            services.AddSingleton<IProductDal, EfProductDal>();
+            //services.AddSingleton<IProductDal, EfProductDal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
