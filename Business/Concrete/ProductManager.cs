@@ -5,6 +5,7 @@ using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Entities.Utilities.Results;
+using Core.Utilities.Business;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -20,15 +21,27 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
+        ICategoryService _categoryService;
 
-        public ProductManager(IProductDal productDal)
+        public ProductManager(IProductDal productDal,ICategoryService categoryService)
         {
             _productDal = productDal;
+            _categoryService = categoryService;
         }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
+           IResult result =  BusinessRules.Run(CheckIfProductNameExists(product.ProductName),
+                CheckIfProductCountofCategoryCorrect(product.CategoryId),CheckIfCategoryLimitExceeded());
+
+            if (result!=null)
+            {
+                return result;
+            }
+
+
+
             if (CheckIfProductCountofCategoryCorrect(product.CategoryId).Success) 
             {
                 if (CheckIfProductNameExists(product.ProductName).Success)
@@ -114,5 +127,14 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        private IResult CheckIfCategoryLimitExceeded() 
+        {
+            var result = _categoryService.GetAll();
+            if (result.Data.Count>15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceeded);
+            }
+            return new SuccessResult();
+        }
     }
 }

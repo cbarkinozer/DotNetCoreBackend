@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Core.Entities.Utilities.Results.IDataResult;
 
 namespace Business.Abstract
 {
     public interface ICategoryService
     {
-        List<Category> GetAll();
-        List<Category> GetById(int categoryId);
+       IDataResult<List<Category>> GetAll();
+        IDataResult<Category> GetById(int categoryId);
     }
 }
